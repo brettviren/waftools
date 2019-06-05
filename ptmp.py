@@ -6,4 +6,4 @@ def options(opt):
 def configure(cfg):
     generic._configure(cfg, 'ptmp', incs=('ptmp/api.h',), libs=('ptmp',),
                        pcname='libptmp',
-                       uses = 'LIBPTMP', mandatory=True)
+                       uses = 'LIBCZMQ PROTOBUF', mandatory=True)

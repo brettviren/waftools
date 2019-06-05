@@ -101,7 +101,8 @@ def _configure(ctx, name, incs=(), libs=(), pcname=None, mandatory=True, uses=""
     uses = [UPPER] + to_list(uses)
 
     if incs:
-        ctx.start_msg("Location for %s headers in %s" % (name, UPPER))
+        #print (ctx.env)
+        ctx.start_msg("Location for %s headers" % name)
         for tryh in incs:
             ctx.check_cxx(header_name=tryh,
                           use=uses, uselib_store=UPPER, mandatory=mandatory)
