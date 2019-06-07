@@ -18,7 +18,7 @@ def utesting(bld, name, use=''):
     if getattr(bld.options, "notests", False):
         print ("no tests")
         return
-    if not any([testsrc, test_scripts]):
+    if not any([checksrc, testsrc, test_scripts]):
         return
 
     def get_rpath(uselst):
