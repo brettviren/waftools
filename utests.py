@@ -3,6 +3,7 @@ from waflib.Configure import conf
 def options(opt):
     opt.load('waf_unit_test')
 def configure(cfg):
+    cfg.env.CXXFLAGS += ['-std=c++14']
     cfg.load('waf_unit_test')
 def build(bld):
     from waflib.Tools import waf_unit_test
