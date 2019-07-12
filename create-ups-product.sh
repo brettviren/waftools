@@ -22,7 +22,7 @@ Example:
 
   $ setup czmq v4_2_0 -q e15
   $ setup protobuf v3_5_2 -q e15
-
+  $ ./tools/create-ups-product.sh /wcdo/lib/ups v00_10_00 e15 czmq protobuf
 
 EOF
     exit 1
@@ -270,11 +270,21 @@ if [ ! -d "${!PRODNAME_UC_FQ_DIR}" ]; then
 fi
 
 
+extra_args=""
+if [ "$pkg_name" = "ptmp-tcs" ] ; then
+    extra_args="--with-ptmp-lib=$PTMP_LIB --with-ptmp-include=$PTMP_INC"
+fi
 
-${tooldir}/waf-configure-for-ups.sh ${!PRODNAME_UC_FQ_DIR} || exit 1
+set -x
+$WAF configure \
+      $extra_args \
+      --with-libzmq-lib=$ZEROMQ_LIB --with-libzmq-include=$ZEROMQ_INC \
+      --with-libczmq-lib=$CZMQ_LIB --with-libczmq-include=$CZMQ_INC \
+      --with-protobuf=$PROTOBUF_FQ_DIR \
+      --prefix=${!PRODNAME_UC_FQ_DIR} || usage "configuration of source failed"
 
-$WAF --notests clean install || exit 1
+$WAF --notests clean install || usage "build failed"
 
-#    ${topdir}/waf -j1 --alltests || exit 1
+
 
 
