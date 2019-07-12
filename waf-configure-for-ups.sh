@@ -1,10 +1,8 @@
 #!/bin/bash
 
-mydir="$(dirname $BASH_SOURCE)"
-topdir="$(dirname $mydir)"
-if [ ! -f "$topdir/waf" ] ; then
-    echo "This script assumes it is in the PTMP source directory under waftools/"
-    exit 1
+if [ ! -f wscript ] ; then
+    echo "This script must be run from the top level source directory"
+    exit -1
 fi
 
 if [ -z "$ZMQ_VERSION" -o -z "$CZMQ_VERSION" -o -z "$PROTOBUF_VERSION" ] ; then
@@ -18,21 +16,24 @@ PRODUCTS=$PRODUCTS:/cvmfs/fermilab.opensciencegrid.org/products/larsoft
 setup czmq v4_2_0 -q e15
 setup protobuf v3_3_1a -q e15
 
+IF the ZeroMQ product names have been fixed, please update this script.
+
 EOF
     exit 1
 fi
 
 prefix="$1" 
 if [ -z "$prefix" ] ; then
-    prefix="$topdir/install"
+    prefix="$(pwd)/install"
 fi
 echo "installing to $prefix"
 
 
-./waf configure \
+./tools/waf configure \
       --with-libzmq-lib=$ZMQ_LIB --with-libzmq-include=$ZMQ_INC \
       --with-czmq-lib=$CZMQ_LIB --with-czmq-include=$CZMQ_INC \
       --with-protobuf=$PROTOBUF_FQ_DIR \
       --prefix=$prefix || exit 1
 
-echo "Now, you can run './waf install'"
+
+echo "Now maybe run './tools/waf --notests install', etc"

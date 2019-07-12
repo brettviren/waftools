@@ -7,7 +7,7 @@ usage()
 }
 
 
-mydir="$(dirname $(realpath $BASH_SOURCE))"
+tooldir="$(dirname $(realpath $BASH_SOURCE))"
 topdir="$(dirname $mydir)"
 
 # assure UPS context
@@ -76,16 +76,9 @@ EOF
 
 
 # assure WAF context for building
-WAF=""
-for maybe in "$topdir/waf" "$topdir/waftools/waf"
-do
-    if [ -x $maybe ] ; then
-        WAF=$maybe
-        break
-    fi
-done
-if [ -z "$WAF" ] ; then
-    echo "Failed to find waf, script must be in subdir of source, not in $mydir"
+WAF="$tooldir/waf"
+if [ ! -x "$WAF" ] ; then
+    echo "Failed to find waf at $WAF"
     exit 1
 fi
 
@@ -220,9 +213,9 @@ fi
 
 
 
-${topdir}/upstools/waf-configure-for-ups.sh ${!PRODNAME_UC_FQ_DIR} || exit 1
+${tooldir}/waf-configure-for-ups.sh ${!PRODNAME_UC_FQ_DIR} || exit 1
 
-${topdir}/waf --notests clean install || exit 1
+$WAF --notests clean install || exit 1
 
 #    ${topdir}/waf -j1 --alltests || exit 1
 
