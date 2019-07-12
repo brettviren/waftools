@@ -5,9 +5,9 @@ if [ ! -f wscript ] ; then
     exit -1
 fi
 
-if [ -z "$ZMQ_VERSION" -o -z "$CZMQ_VERSION" -o -z "$PROTOBUF_VERSION" ] ; then
+if [ -z "$ZEROMQ_VERSION" -o -z "$CZMQ_VERSION" -o -z "$PROTOBUF_VERSION" ] ; then
     cat <<EOF
-This script assumes you have your UPS environment set up for the products 'zmq', 'czmq' and 'protobuf'.
+This script assumes you have your UPS environment set up for the products 'zeromq', 'czmq' and 'protobuf'.
 
 Maybe try:
 
@@ -30,8 +30,8 @@ echo "installing to $prefix"
 
 
 ./tools/waf configure \
-      --with-libzmq-lib=$ZMQ_LIB --with-libzmq-include=$ZMQ_INC \
-      --with-czmq-lib=$CZMQ_LIB --with-czmq-include=$CZMQ_INC \
+      --with-libzmq-lib=$ZEROMQ_LIB --with-libzmq-include=$ZEROMQ_INC \
+      --with-libczmq-lib=$CZMQ_LIB --with-libczmq-include=$CZMQ_INC \
       --with-protobuf=$PROTOBUF_FQ_DIR \
       --prefix=$prefix || exit 1
 
