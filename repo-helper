@@ -52,6 +52,13 @@ do-show-url () {
 }
 
 
+do-dev-push () {
+    do-switch-url dev
+    git submodule --quiet foreach git push origin
+    git push origin
+    do-switch-url anon
+}
+
 
 
 cmd="$1"; shift
